@@ -71,5 +71,30 @@ class InventoryTest extends BaseTest {
         inventory.removeFirstProduct();
         assertTrue(inventory.isCartBadgeHidden());
     }
+    @Test
+    @DisplayName("TC15 Ordenar inventario por Precio (mayor a menor)")
+    void tc15_sortByPriceDesc() {
+        new LoginPage(driver).login("standard_user", "secret_sauce");
+        InventoryPage inventory = new InventoryPage(driver);
+        inventory.selectSortOption("hilo");
+
+        List<Double> actual = inventory.getProductPrices();
+        List<Double> expected = new ArrayList<>(actual);
+        expected.sort(Comparator.reverseOrder());
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    @DisplayName("TC29 Cierre de sesión desde el menú lateral retorna al login")
+    void tc29_logoutReturnsToLogin() {
+        LoginPage login = new LoginPage(driver);
+        login.login("standard_user", "secret_sauce");
+
+        InventoryPage inventory = new InventoryPage(driver);
+        assertEquals("Products", inventory.getTitleText());
+
+        inventory.logout();
+        assertTrue(login.isLoginVisible());
+    }
 }
 

@@ -60,4 +60,38 @@ class CheckoutTest extends BaseTest {
         checkout.finish();
         assertTrue(checkout.confirmation().toLowerCase().contains("thank"));
     }
+    @Test
+    @DisplayName("TC24 Checkout con nombre vacío muestra error de validación")
+    void tc24_checkoutMissingFirstName() {
+        new LoginPage(driver).login("standard_user", "secret_sauce");
+        new InventoryPage(driver).addFirstProduct();
+
+        CartPage cart = new CartPage(driver);
+        cart.open();
+        cart.proceedToCheckout();
+
+        CheckoutPage checkout = new CheckoutPage(driver);
+        checkout.clickContinueExpectingError("", "Tester", "10101");
+        assertTrue(checkout.getErrorText().contains("First Name is required"));
+    }
+
+    @Test
+    @DisplayName("TC28 Flujo de compra con performance_glitch_user llega a confirmación")
+    void tc28_checkoutPerformanceGlitchUser() {
+        new LoginPage(driver).login("performance_glitch_user", "secret_sauce");
+
+        InventoryPage inventory = new InventoryPage(driver);
+        assertEquals("Products", inventory.getTitleText());
+        inventory.addFirstProduct();
+
+        CartPage cart = new CartPage(driver);
+        cart.open();
+        assertEquals(1, cart.itemCount());
+        cart.proceedToCheckout();
+
+        CheckoutPage checkout = new CheckoutPage(driver, 25); // <-- AQUÍ: antes decía new CheckoutPage(driver)
+        checkout.fillInformation("QA", "Tester", "10101");
+        checkout.finish();
+        assertTrue(checkout.confirmation().toLowerCase().contains("thank"));
+    }
 }

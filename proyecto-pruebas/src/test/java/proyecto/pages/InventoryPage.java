@@ -21,6 +21,8 @@ public class InventoryPage extends BasePage {
     private final By itemPrices = By.cssSelector(".inventory_item_price");
     private final By firstItemTitle = By.cssSelector(".inventory_item_name");
     private final By detailName = By.cssSelector(".inventory_details_name");
+    private final By menuButton = By.id("react-burger-menu-btn");
+    private final By logoutLink = By.id("logout_sidebar_link");
 
     public InventoryPage(WebDriver driver) {
         super(driver);
@@ -65,6 +67,24 @@ public class InventoryPage extends BasePage {
                     .until(ExpectedConditions.invisibilityOfElementLocated(cartBadge));
         }
     }
+    public void logout() {
+        WebElement menuBtn = wait.until(ExpectedConditions.elementToBeClickable(menuButton));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", menuBtn);
+        try {
+            menuBtn.click();
+        } catch (Exception e) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", menuBtn);
+        }
+
+        WebElement logoutEl = wait.until(ExpectedConditions.elementToBeClickable(logoutLink));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", logoutEl);
+        try {
+            logoutEl.click();
+        } catch (Exception e) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", logoutEl);
+        }
+        wait.until(ExpectedConditions.urlContains("saucedemo.com"));
+    }
 
     public void selectSortOption(String value) {
         Select select = new Select(wait.until(ExpectedConditions.elementToBeClickable(sortSelect)));
@@ -90,4 +110,5 @@ public class InventoryPage extends BasePage {
     public String getDetailName() {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(detailName)).getText().trim();
     }
+
 }

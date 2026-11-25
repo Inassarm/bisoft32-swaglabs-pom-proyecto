@@ -19,6 +19,11 @@ public class CheckoutPage extends BasePage {
         super(driver);
     }
 
+    // <-- AQUÍ: segundo constructor con timeout personalizado
+    public CheckoutPage(WebDriver driver, long timeoutSeconds) {
+        super(driver, timeoutSeconds);
+    }
+
     public void fillInformation(String first, String last, String postal) {
         WebElement firstEl = wait.until(ExpectedConditions.visibilityOfElementLocated(firstName));
         firstEl.clear();
