@@ -1,0 +1,11 @@
+proyecto\tests\InventoryTest.class
+proyecto\pages\LoginPage.class
+proyecto\base\BaseTest.class
+proyecto\tests\CheckoutTest.class
+proyecto\pages\CheckoutPage.class
+proyecto\base\HtmlReportGenerator.class
+proyecto\pages\InventoryPage.class
+proyecto\pages\BasePage.class
+proyecto\tests\LoginTest.class
+proyecto\pages\CartPage.class
+proyecto\tests\CartTest.class
